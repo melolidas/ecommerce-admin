@@ -1,4 +1,3 @@
-import { images } from "@/next.config";
 import { model, models, Schema } from "mongoose";
 
 const ProductSchema = new Schema({
