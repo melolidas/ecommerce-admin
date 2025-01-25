@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "./Spinner";
@@ -10,17 +10,25 @@ export default function productForm({
     description: existingDescription,
     price: existingPrice,
     images: existingImages,
+    category: assignedCategory,
 }) {
     const [title, setTitle] = useState(existingTitle || "");
     const [description, setDescription] = useState(existingDescription || "");
+    const [category, setCategory] = useState(assignedCategory || "");
     const [price, setPrice] = useState(existingPrice || "");
     const [images, setImages] = useState(existingImages || []);
     const [goToProducts, setGoToProducts] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const [categories, setCategories] = useState([]);
     const router = useRouter();
+    useEffect(() => {
+        axios.get(`/api/categories`).then((res) => {
+            setCategories(res.data);
+        });
+    }, []);
     async function saveProduct(ev) {
         ev.preventDefault();
-        const data = { title, description, price, images };
+        const data = { title, description, price, images, category };
         if (_id) {
             await axios.put(`/api/products`, { ...data, _id });
         } else {
@@ -57,6 +65,19 @@ export default function productForm({
                 value={title}
                 onChange={(ev) => setTitle(ev.target.value)}
             />
+            <label>Category</label>
+            <select
+                value={category}
+                onChange={(ev) => setCategory(ev.target.value)}
+            >
+                <option value="">Uncategorized</option>
+                {categories.length > 0 &&
+                    categories.map((category) => (
+                        <option value={category._id} key={category._id}>
+                            {category.name}
+                        </option>
+                    ))}
+            </select>
             <label>Photos</label>
             <div className="mb-2 flex flex-wrap gap-1">
                 <ReactSortable
