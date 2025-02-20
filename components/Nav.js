@@ -12,7 +12,7 @@ export default function Nav({ show }) {
     const { pathname } = router;
     async function logout() {
         await router.push("/");
-        await signOut();
+        await signOut();    
     }
     return (
         <aside

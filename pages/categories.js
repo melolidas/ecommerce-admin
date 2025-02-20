@@ -23,45 +23,25 @@ function Categories({ swal }) {
     }
     async function saveCategory(ev) {
         ev.preventDefault();
-        // Проверка на обязательные поля
-        if (!name.trim()) {
-            swal.fire({
-                title: "Validation Error",
-                text: "Category name is required!",
-                icon: "warning",
-            });
-            return;
-        }
-
         const data = {
             name,
             parentCategory,
             properties: properties.map((p) => ({
-                name: p.name.trim(),
-                values: p.values.split(",").map((v) => v.trim()),
+                name: p.name,
+                values: p.values.split(","),
             })),
         };
-
-        try {
-            if (editedCategory) {
-                data._id = editedCategory._id;
-                await axios.put("/api/categories", data);
-                setEditedCategory(null);
-            } else {
-                await axios.post("/api/categories", data);
-            }
-            // Сброс значений после сохранения
-            setName("");
-            setParentCategory("");
-            setProperties([]);
-            fetchCategories();
-        } catch (error) {
-            swal.fire({
-                title: "Error",
-                text: error.response?.data?.message || "Something went wrong",
-                icon: "error",
-            });
+        if (editedCategory) {
+            data._id = editedCategory._id;
+            await axios.put("/api/categories", data);
+            setEditedCategory(null);
+        } else {
+            await axios.post("/api/categories", data);
         }
+        setName("");
+        setParentCategory("");
+        setProperties([]);
+        fetchCategories();
     }
     function editCategory(category) {
         setEditedCategory(category);
@@ -226,7 +206,7 @@ function Categories({ swal }) {
                     <tbody>
                         {isLoading && (
                             <tr>
-                                <td colSpan={2}>
+                                <td colSpan={3}>
                                     <div className="py-4">
                                         <Spinner fullWidth={true} />
                                     </div>

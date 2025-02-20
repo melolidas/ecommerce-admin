@@ -9,10 +9,11 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@next-auth/mongodb-adapter": "^1.1.1",
         "@aws-sdk/client-s3": "^3.732.0",
+        "@next-auth/mongodb-adapter": "^1.1.1",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.9",
+        "date-fns": "^4.1.0",
         "mime-types": "^2.1.35",
         "mongodb": "^5.1.0",
         "mongoose": "^8.9.5",
