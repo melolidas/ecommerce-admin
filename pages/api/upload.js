@@ -8,7 +8,7 @@ import { isAdminRequest } from "./auth/[...nextauth]";
 const bucketName = process.env.S3_BUCKET;
 export default async function handle(req, res) {
     await mongooseConnect();
-    await isAdminRequest(req, res);
+    // await isAdminRequest(req, res);
 
     const form = new multiparty.Form();
     const { fields, files } = await new Promise((resolve, reject) => {

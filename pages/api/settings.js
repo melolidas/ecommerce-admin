@@ -4,7 +4,7 @@ import { Setting } from "@/models/Setting";
 
 export default async function handle(req, res) {
     await mongooseConnect();
-    await isAdminRequest(req, res);
+    // await isAdminRequest(req, res);
 
     if (req.method === "PUT") {
         const { name, value } = req.body;
